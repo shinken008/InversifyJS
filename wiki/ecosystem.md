@@ -13,6 +13,7 @@ Consider these the “staff picks”, and don’t hesitate to submit a PR if you
 - [inversify-vanillajs-helpers](https://github.com/inversify/inversify-vanillajs-helpers) - Some helpers for the development of InversifyJS applications with VanillaJS or Babel.
 - [inversify-tracer](https://github.com/tiagomestre/inversify-tracer) - Tool that allows the developer to trace methods of objects created by InversifyJS.
 - [inversify-components](https://github.com/webcomputing/inversify-components) - Layer on top of InversifyJS that enables you to split your application into several components.
+- [inversify-token](https://github.com/mscharley/inversify-token) - Token based layer for InversifyJS to enable strong type-safe guarantees for injection in TypeScript.
 
 ### Middleware
 - [inversify-logger-middleware](https://github.com/inversify/inversify-logger-middleware) - A console logger middleware for InversifyJS.
@@ -28,10 +29,21 @@ Consider these the “staff picks”, and don’t hesitate to submit a PR if you
 - [InversifyJS Binding Decorators](https://github.com/inversify/inversify-express-example/tree/master/BindingDecorators)
 
 ### Open Source Projects using InversifyJS
-- [RobotlegsJS](https://github.com/GoodgameStudios/RobotlegsJS) - An architecture-based framework for JavaScript/TypeScript canvas applications.
-- [Dwatch](https://github.com/Mercateo/dwatch) - Manage your docker containers, images and networks in a nice and clean way.
-- [Retax](https://github.com/retaxJS) - Universal React Redux Framework.
-- [Prettygoat](https://www.npmjs.com/package/prettygoat) - The not so baaaaaaad Event Sourcing Projection Engine.
-- [Ninjagoat](https://www.npmjs.com/package/ninjagoat) - The not so baaaaaaad MVVM framework.
-- [Javascript-obfuscator](https://github.com/javascript-obfuscator/javascript-obfuscator) - JavaScript obfuscator for Node.js
+<!-- The links are ordered alphabetically acording to the name -->
 - [AssistantJS](http://assistantjs.org) - TypeScript framework to build cross-platform voice applications (alexa, google home, ...)
+- [docs_gm](https://github.com/jhm-ciberman/docs_gm) - The fantastic documentation generator for GameMaker: Studio 1 and GameMaker Studio 2 projects.
+- [Dwatch](https://github.com/Mercateo/dwatch) - Manage your docker containers, images and networks in a nice and clean way.
+- [Frontend Boilerplates](https://boilerplates.js.org) - A collection of boilerplates to use in your projects.
+- [Javascript-obfuscator](https://github.com/javascript-obfuscator/javascript-obfuscator) - JavaScript obfuscator for Node.js
+- [Ninjagoat](https://www.npmjs.com/package/ninjagoat) - The not so baaaaaaad MVVM framework.
+- [Prettygoat](https://www.npmjs.com/package/prettygoat) - The not so baaaaaaad Event Sourcing Projection Engine.
+- [Retax](https://github.com/retaxJS) - Universal React Redux Framework.
+- [RobotlegsJS](https://github.com/GoodgameStudios/RobotlegsJS) - An architecture-based framework for JavaScript/TypeScript canvas applications.
+
+
+
+
+
+
+
+

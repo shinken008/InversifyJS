@@ -19,7 +19,7 @@
 A powerful and lightweight inversion of control container for JavaScript & Node.js apps powered by TypeScript.
 
 ## About
-InversifyJS is a lightweight (4KB) inversion of control (IoC) container for TypeScript and JavaScript apps.
+InversifyJS is a lightweight inversion of control (IoC) container for TypeScript and JavaScript apps.
 An IoC container uses a class constructor to identify and inject its dependencies.
 InversifyJS has a friendly API and encourages the usage of the best OOP and IoC practices.
 
@@ -29,7 +29,7 @@ JavaScript now supports object oriented (OO) programming with class based inheri
 
 We need a good OO design ([SOLID](https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)), [Composite Reuse](https://en.wikipedia.org/wiki/Composition_over_inheritance), etc.) to protect ourselves from these threats. The problem is that OO design is difficult and that is exactly why we created InversifyJS.
 
-InversifyJS is a tool that helps JavaScript developers to write code with a good OO design.
+InversifyJS is a tool that helps JavaScript developers write code with good OO design.
 
 ## Philosophy
 InversifyJS has been developed with 4 main goals:
@@ -51,6 +51,10 @@ InversifyJS has been developed with 4 main goals:
 
 **[Michel Weststrate](https://twitter.com/mweststrate)** - Author of [MobX](https://github.com/mobxjs/mobx)
 > *Dependency injection like InversifyJS works nicely*
+
+## Some companies using InversifyJS
+
+[<img src="https://avatars0.githubusercontent.com/u/6154722?s=200&v=4" width="100" />](https://opensource.microsoft.com/)[<img src="https://avatars2.githubusercontent.com/u/69631?s=200&v=4" width="100" />](https://code.facebook.com/projects/1021334114569758/nuclide/)[<img src="https://avatars0.githubusercontent.com/u/2232217?s=200&v=4" width="100" />](https://aws.github.io/aws-amplify/)[<img src="https://avatars0.githubusercontent.com/u/1520648?s=200&v=4" width="100" />](https://www.plainconcepts.com/)[<img src="https://avatars3.githubusercontent.com/u/6962987?s=200&v=4" width="100" />](https://api.slack.com/)[<img src="https://pbs.twimg.com/profile_images/827249559046909954/SyaBPcH8_400x400.jpg" width="100" />](http://acia.aon.com/index.php/home/) [<img src="https://avatars3.githubusercontent.com/u/114767?s=200&v=4" width="100" />](https://www.lonelyplanet.com/) [<img src="https://avatars0.githubusercontent.com/u/25283328?s=200&v=4" width="100" />](https://jincor.com/) [<img src="https://avatars1.githubusercontent.com/u/1957282?s=200&v=4" width="100" />](https://www.web-computing.de/) [<img src="https://avatars1.githubusercontent.com/u/17648048?s=200&v=4" width="100" />](https://dcos.io/) [<img src="https://avatars0.githubusercontent.com/u/16970371?s=200&v=4" width="100" />](https://typefox.io/) [<img src="https://avatars0.githubusercontent.com/u/18010308?s=200&v=4" width="100" />](https://code4.ro/) [<img src="https://user-images.githubusercontent.com/10656223/33888109-fae0852e-df43-11e7-97f6-9db543da0bde.png" width="100">](http://www.baidu.com/) [<img src="https://avatars2.githubusercontent.com/u/8085382?s=200&v=4" width="100" />](https://www.imdada.cn/) [<img src="https://avatars2.githubusercontent.com/u/17041151?s=200&v=4" width="100" />](https://www.ato.gov.au/) [<img src="https://avatars1.githubusercontent.com/u/14963540?s=200&v=4" width="100" />](https://www.kaneoh.com/) [<img src="https://avatars0.githubusercontent.com/u/26021686?s=200&v=4" width="100" />](https://particl.io/) [<img src="https://avatars2.githubusercontent.com/u/24523195?s=200&v=4" width="100" />](https://slackmap.com/) [<img src="https://avatars3.githubusercontent.com/u/16556899?s=200&v=4" width="100" />](https://www.go1.com/) [<img src="https://avatars3.githubusercontent.com/u/23475730?s=200&v=4" width="100" />](http://www.stellwagengroup.com/stellwagen-technology/) [<img src="https://avatars1.githubusercontent.com/u/15262567?s=200&v=4" width="100" />](https://www.edrlab.org/) [<img src="https://avatars1.githubusercontent.com/u/10072104?s=200&v=4" width="100" />](https://www.goodgamestudios.com/) [<img src="https://avatars2.githubusercontent.com/u/13613760?s=200&v=4" width="100" />](https://freshfox.at/) [<img src="https://avatars1.githubusercontent.com/u/864482?s=200&v=4" width="100" />](https://schubergphilis.com/)
 
 ## Installation
 
@@ -86,7 +90,7 @@ InversifyJS requires a modern JavaScript engine with support for:
 - [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) (Only required if using [provider injection](https://github.com/inversify/InversifyJS/blob/master/wiki/provider_injection.md))
 - [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) (Only required if using [activation handlers](https://github.com/inversify/InversifyJS/blob/master/wiki/activation_handler.md))
 
-If your environment don't support one of these you will need to import a shim or polyfill.
+If your environment doesn't support one of these you will need to import a shim or polyfill.
 
 > :warning: **The `reflect-metadata` polyfill should be imported only once in your entire application** because the Reflect object is mean to be a global singleton. More details about this can be found [here](https://github.com/inversify/InversifyJS/issues/262#issuecomment-227593844).
 
@@ -94,7 +98,7 @@ Check out the [Environment support and polyfills](https://github.com/inversify/I
 page in the wiki and the [Basic example](https://github.com/inversify/inversify-basic-example) to learn more.
 
 ## The Basics
-Let’s take a look to the basic usage and APIs of InversifyJS with TypeScript:
+Let’s take a look at the basic usage and APIs of InversifyJS with TypeScript:
 
 ### Step 1: Declare your interfaces and types
 
@@ -105,16 +109,16 @@ Let's start by declaring some interfaces (abstractions).
 ```ts
 // file interfaces.ts
 
-interface Warrior {
+export interface Warrior {
     fight(): string;
     sneak(): string;
 }
 
-interface Weapon {
+export interface Weapon {
     hit(): string;
 }
 
-interface ThrowableWeapon {
+export interface ThrowableWeapon {
     throw(): string;
 }
 ```
@@ -125,9 +129,9 @@ InversifyJS need to use the type as identifiers at runtime. We use symbols as id
 // file types.ts
 
 const TYPES = {
-    Warrior: Symbol("Warrior"),
-    Weapon: Symbol("Weapon"),
-    ThrowableWeapon: Symbol("ThrowableWeapon")
+    Warrior: Symbol.for("Warrior"),
+    Weapon: Symbol.for("Weapon"),
+    ThrowableWeapon: Symbol.for("ThrowableWeapon")
 };
 
 export { TYPES };
@@ -139,7 +143,7 @@ export { TYPES };
 ### Step 2: Declare dependencies using the `@injectable` & `@inject` decorators
 Let's continue by declaring some classes (concretions). The classes are implementations of the interfaces that we just declared. All the classes must be annotated with the `@injectable` decorator. 
 
-When a class has a  dependency on an interface we also need to use the `@inject` decorator to define an identifier for the interface that will be available at runtime. In this case we will use the Symbols `Symbol("Weapon")` and `Symbol("ThrowableWeapon")` as runtime identifiers.
+When a class has a  dependency on an interface we also need to use the `@inject` decorator to define an identifier for the interface that will be available at runtime. In this case we will use the Symbols `Symbol.for("Weapon")` and `Symbol.for("ThrowableWeapon")` as runtime identifiers.
 
 ```ts
 // file entities.ts
@@ -204,7 +208,7 @@ In the rest of your application your classes should be free of references to oth
 // file inversify.config.ts
 
 import { Container } from "inversify";
-import TYPES from "./types";
+import { TYPES } from "./types";
 import { Warrior, Weapon, ThrowableWeapon } from "./interfaces";
 import { Ninja, Katana, Shuriken } from "./entities";
 
@@ -223,6 +227,8 @@ to avoid the [service locator anti-pattern](http://blog.ploeh.dk/2010/02/03/Serv
 
 ```ts
 import { myContainer } from "./inversify.config";
+import { TYPES } from "./types";
+import { Warrior } from "./interfaces";
 
 const ninja = myContainer.get<Warrior>(TYPES.Warrior);
 
@@ -289,7 +295,7 @@ Thanks a lot to all the [contributors](https://github.com/inversify/InversifyJS/
 
 License under the MIT License (MIT)
 
-Copyright © 2015-2016 [Remo H. Jansen](http://www.remojansen.com)
+Copyright © 2015-2017 [Remo H. Jansen](http://www.remojansen.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

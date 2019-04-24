@@ -10,7 +10,7 @@ In some cases there will be some additional operations:
 - Activation
 - Middleware
 
-If we have configured some Middleware it will be executed at some point before ot after the planning, 
+If we have configured some Middleware it will be executed at some point before or after the planning, 
 resolution and activation phases.
 
 Middleware can be used to implement powerful development tools. This kind of tools will help developers 
@@ -21,12 +21,12 @@ to identify problems during the development process.
 ```ts
 import { interfaces, Container } from "inversify";
 
-function logger(planAndResolve: interfaces.PlanAndResolve<any>): interfaces.PlanAndResolve<any> {
-    return (args: interfaces.PlanAndResolveArgs) => {
+function logger(planAndResolve: interfaces.Next): interfaces.Next {
+    return (args: interfaces.NextArgs) => {
         let start = new Date().getTime();
         let result = planAndResolve(args);
         let end = new Date().getTime();
-        console.log(end - start);
+        console.log(`wooooo  ${end - start}`);
         return result;
     };
 }
@@ -76,19 +76,19 @@ In some cases you may want to intercept the resolution plan.
 The default `contextInterceptor` is passed to the middleware as an property of `args`.
 
 ```ts
-function middleware1(planAndResolve: PlanAndResolve<any>): PlanAndResolve<any> {
-    return (args: PlanAndResolveArgs) => {
+function middleware1(planAndResolve: interfaces.Next): interfaces.Next<any> {
+    return (args: interfaces.NextArgs) => {
         // args.nextContextInterceptor
         // ...
     };
 }
 ```
 
-You can extends the default `contextInterceptor` using a function:
+You can extend the default `contextInterceptor` using a function:
 
 ```ts
-function middleware1(planAndResolve: PlanAndResolve<any>): PlanAndResolve<any> {
-    return (args: PlanAndResolveArgs) => {
+function middleware1(planAndResolve: interfaces.Next<any>): interfaces.Next<any> {
+    return (args: interfaces.NextArgs) => {
         let nextContextInterceptor = args.contextInterceptor;
         args.contextInterceptor = (context: interfaces.Context) => {
             console.log(context);
@@ -102,7 +102,7 @@ function middleware1(planAndResolve: PlanAndResolve<any>): PlanAndResolve<any> {
 ## Custom metadata reader
 
 > :warning: Please note that it is not recommended to create your own custom
-> metadata reader. We have included this feature two allow library / framework creators
+> metadata reader. We have included this feature to allow library / framework creators
 > to have a higher level of customization but the average user should not use a custom
 > metadata reader. In general, a custom metadata reader should only be used when
 > developing a framework in order to provide users with an annotation APIs
@@ -172,7 +172,7 @@ A custom metadata reader must implement the `interfaces.MetadataReader` interfac
 
 A full example [can be found in our unit tests](https://github.com/inversify/InversifyJS/blob/master/test/features/metadata_reader.test.ts).
 
-One you have a custom metadata reader you will be ready to apply it:
+Once you have a custom metadata reader you will be ready to apply it:
 
 ```ts
 let container = new Container();

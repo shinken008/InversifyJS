@@ -1,10 +1,10 @@
-import { interfaces } from "../interfaces/interfaces";
-import { guid } from "../utils/guid";
 import { BindingTypeEnum } from "../constants/literal_types";
+import { interfaces } from "../interfaces/interfaces";
+import { id } from "../utils/id";
 
 class Binding<T> implements interfaces.Binding<T> {
 
-    public guid: string;
+    public id: number;
     public moduleId: string;
 
     // Determines weather the bindings has been already activated
@@ -42,13 +42,13 @@ class Binding<T> implements interfaces.Binding<T> {
     // On activation handler (invoked just before an instance is added to cache and injected)
     public onActivation: ((context: interfaces.Context, injectable: T) => T) | null;
 
-    constructor(serviceIdentifier: interfaces.ServiceIdentifier<T>, scope: interfaces.BindingScope) {
-        this.guid = guid();
+    public constructor(serviceIdentifier: interfaces.ServiceIdentifier<T>, scope: interfaces.BindingScope) {
+        this.id = id();
         this.activated = false;
         this.serviceIdentifier = serviceIdentifier;
         this.scope = scope;
         this.type = BindingTypeEnum.Invalid;
-        this.constraint = (request: interfaces.Request) => { return true; };
+        this.constraint = (request: interfaces.Request) => true;
         this.implementationType = null;
         this.cache = null;
         this.factory = null;
@@ -58,7 +58,7 @@ class Binding<T> implements interfaces.Binding<T> {
     }
 
     public clone(): interfaces.Binding<T> {
-        let clone = new Binding(this.serviceIdentifier, this.scope);
+        const clone = new Binding(this.serviceIdentifier, this.scope);
         clone.activated = false;
         clone.implementationType = this.implementationType;
         clone.dynamicValue = this.dynamicValue;

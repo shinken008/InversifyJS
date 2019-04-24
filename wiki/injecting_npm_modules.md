@@ -12,16 +12,16 @@ src/
 └── ioc
     ├── interfaces.ts
     ├── ioc.ts
-    └── types.
+    └── types.ts
 ```
 
 ### /src/ioc/types.ts
 
 ```ts
 const TYPES = {
-    Sequelize: Symbol("Sequelize"),
-    Lodash: Symbol("Lodash"),
-    SomeClass: Symbol("SomeClass")
+    Sequelize: Symbol.for("Sequelize"),
+    Lodash: Symbol.for("Lodash"),
+    SomeClass: Symbol.for("SomeClass")
 };
 
 export { TYPES };

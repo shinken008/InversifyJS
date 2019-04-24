@@ -7,6 +7,10 @@ export const CANNOT_UNBIND = "Could not unbind serviceIdentifier:";
 export const NOT_REGISTERED = "No matching bindings found for serviceIdentifier:";
 export const MISSING_INJECTABLE_ANNOTATION = "Missing required @injectable annotation in:";
 export const MISSING_INJECT_ANNOTATION = "Missing required @inject or @multiInject annotation in:";
+export const UNDEFINED_INJECT_ANNOTATION = (name: string) =>
+            `@inject called with undefined this could mean that the class ${name} has ` +
+            "a circular dependency problem. You can use a LazyServiceIdentifer to  " +
+            "overcome this limitation.";
 export const CIRCULAR_DEPENDENCY = "Circular dependency found:";
 export const NOT_IMPLEMENTED = "Sorry, this feature is not fully implemented yet.";
 export const INVALID_BINDING_TYPE = "Invalid binding type:";
@@ -20,8 +24,8 @@ export const INVALID_TO_SELF_VALUE = "The toSelf function can only be applied wh
 export const INVALID_DECORATOR_OPERATION = "The @inject @multiInject @tagged and @named decorators " +
     "must be applied to the parameters of a class constructor or a class property.";
 
-export const ARGUMENTS_LENGTH_MISMATCH_1 = "The number of constructor arguments in the derived class ";
-export const ARGUMENTS_LENGTH_MISMATCH_2 = " must be >= than the number of constructor arguments of its base class.";
+export const ARGUMENTS_LENGTH_MISMATCH = (...values: any[]) => "The number of constructor arguments in the derived class " +
+    `${values[0]} must be >= than the number of constructor arguments of its base class.`;
 
 export const CONTAINER_OPTIONS_MUST_BE_AN_OBJECT = "Invalid Container constructor argument. Container options " +
     "must be an object.";
@@ -32,10 +36,13 @@ export const CONTAINER_OPTIONS_INVALID_DEFAULT_SCOPE = "Invalid Container option
 export const CONTAINER_OPTIONS_INVALID_AUTO_BIND_INJECTABLE = "Invalid Container option. Auto bind injectable must " +
     "be a boolean";
 
+export const CONTAINER_OPTIONS_INVALID_SKIP_BASE_CHECK = "Invalid Container option. Skip base check must " +
+    "be a boolean";
+
 export const MULTIPLE_POST_CONSTRUCT_METHODS = "Cannot apply @postConstruct decorator multiple times in the same class";
 export const POST_CONSTRUCT_ERROR = (...values: any[]) => `@postConstruct error in class ${values[0]}: ${values[1]}`;
 
-export const CIRCULAR_DEPENDENCY_IN_FACTORY = (...values: any[]) =>  `It looks like there is a circular dependency ` +
+export const CIRCULAR_DEPENDENCY_IN_FACTORY = (...values: any[]) =>  "It looks like there is a circular dependency " +
     `in one of the '${values[0]}' bindings. Please investigate bindings with` +
     `service identifier '${values[1]}'.`;
 

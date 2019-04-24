@@ -1,18 +1,41 @@
-import { interfaces } from "../interfaces/interfaces";
+import * as ERROR_MSGS from "../constants/error_msgs";
 import { BindingScopeEnum, BindingTypeEnum } from "../constants/literal_types";
+import { interfaces } from "../interfaces/interfaces";
+import { isStackOverflowExeption } from "../utils/exceptions";
 import { getServiceIdentifierAsString } from "../utils/serialization";
 import { resolveInstance } from "./instantiation";
-import * as ERROR_MSGS from "../constants/error_msgs";
+
+type FactoryType = "toDynamicValue" | "toFactory" | "toAutoFactory" | "toProvider";
+
+const invokeFactory = (
+    factoryType: FactoryType,
+    serviceIdentifier: interfaces.ServiceIdentifier<any>,
+    fn: () => any
+) => {
+    try {
+        return fn();
+    } catch (error) {
+        if (isStackOverflowExeption(error)) {
+            throw new Error(
+                ERROR_MSGS.CIRCULAR_DEPENDENCY_IN_FACTORY(factoryType, serviceIdentifier.toString())
+            );
+        } else {
+            throw error;
+        }
+    }
+};
 
 const _resolveRequest = (requestScope: interfaces.RequestScope) =>
     (request: interfaces.Request): any => {
 
-    let bindings = request.bindings;
-    let childRequests = request.childRequests;
+    request.parentContext.setCurrentRequest(request);
 
-    let targetIsAnArray = request.target && request.target.isArray();
+    const bindings = request.bindings;
+    const childRequests = request.childRequests;
 
-    let targetParentIsNotAnArray = !request.parentRequest ||
+    const targetIsAnArray = request.target && request.target.isArray();
+
+    const targetParentIsNotAnArray = !request.parentRequest ||
                                    !request.parentRequest.target ||
                                    !request.target ||
                                    !request.parentRequest.target.matchesArray(request.target.serviceIdentifier);
@@ -29,24 +52,24 @@ const _resolveRequest = (requestScope: interfaces.RequestScope) =>
 
         let result: any = null;
 
-        if (request.target.isOptional() === true && bindings.length === 0) {
+        if (request.target.isOptional() && bindings.length === 0) {
             return undefined;
         }
 
-        let binding = bindings[0];
-        let isSingleton = binding.scope === BindingScopeEnum.Singleton;
-        let isRequestSingleton = binding.scope === BindingScopeEnum.Request;
+        const binding = bindings[0];
+        const isSingleton = binding.scope === BindingScopeEnum.Singleton;
+        const isRequestSingleton = binding.scope === BindingScopeEnum.Request;
 
-        if (isSingleton && binding.activated === true) {
+        if (isSingleton && binding.activated) {
             return binding.cache;
         }
 
         if (
             isRequestSingleton &&
             requestScope !== null &&
-            requestScope.has(binding.guid)
+            requestScope.has(binding.id)
         ) {
-            return requestScope.get(binding.guid);
+            return requestScope.get(binding.id);
         }
 
         if (binding.type === BindingTypeEnum.ConstantValue) {
@@ -56,11 +79,23 @@ const _resolveRequest = (requestScope: interfaces.RequestScope) =>
         } else if (binding.type === BindingTypeEnum.Constructor) {
             result = binding.implementationType;
         } else if (binding.type === BindingTypeEnum.DynamicValue && binding.dynamicValue !== null) {
-            result = binding.dynamicValue(request.parentContext);
+            result = invokeFactory(
+                "toDynamicValue",
+                binding.serviceIdentifier,
+                () => (binding.dynamicValue as (context: interfaces.Context) => any)(request.parentContext)
+            );
         } else if (binding.type === BindingTypeEnum.Factory && binding.factory !== null) {
-            result = binding.factory(request.parentContext);
+            result = invokeFactory(
+                "toFactory",
+                binding.serviceIdentifier,
+                () => (binding.factory as interfaces.FactoryCreator<any>)(request.parentContext)
+            );
         } else if (binding.type === BindingTypeEnum.Provider && binding.provider !== null) {
-            result = binding.provider(request.parentContext);
+            result = invokeFactory(
+                "toProvider",
+                binding.serviceIdentifier,
+                () => (binding.provider as interfaces.Provider<any>)(request.parentContext)
+            );
         } else if (binding.type === BindingTypeEnum.Instance && binding.implementationType !== null) {
             result = resolveInstance(
                 binding.implementationType,
@@ -70,7 +105,7 @@ const _resolveRequest = (requestScope: interfaces.RequestScope) =>
         } else {
             // The user probably created a binding but didn't finish it
             // e.g. container.bind<T>("Something"); missing BindingToSyntax
-            let serviceIdentifier = getServiceIdentifierAsString(request.serviceIdentifier);
+            const serviceIdentifier = getServiceIdentifierAsString(request.serviceIdentifier);
             throw new Error(`${ERROR_MSGS.INVALID_BINDING_TYPE} ${serviceIdentifier}`);
         }
 
@@ -88,9 +123,9 @@ const _resolveRequest = (requestScope: interfaces.RequestScope) =>
         if (
             isRequestSingleton &&
             requestScope !== null &&
-            !requestScope.has(binding.guid)
+            !requestScope.has(binding.id)
         ) {
-            requestScope.set(binding.guid, result);
+            requestScope.set(binding.id, result);
         }
 
         return result;

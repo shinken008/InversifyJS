@@ -49,7 +49,10 @@ gulp.task("lint", function() {
         "src/**/**.ts",
         "test/**/**.test.ts"
     ])
-    .pipe(gulpTslint({ program }))
+    .pipe(gulpTslint({
+        formatter: "stylish",
+        program
+    }))
     .pipe(gulpTslint.report());
 
 });
@@ -161,6 +164,10 @@ gulp.task("mocha", [ "istanbul:hook" ], function() {
       "test/**/*.test.js"
     ])
     .pipe(mocha({ui: "bdd"}))
+    .on("error", function (err) {
+        console.log(err);
+        process.exit(1);
+    })
     .pipe(istanbul.writeReports());
 });
 

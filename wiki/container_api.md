@@ -39,6 +39,16 @@ container.bind(Ninja).to(Samurai);
 container.get(Ninja);              // returns a Samurai
 ```
 
+### skipBaseClassChecks
+
+You can use this to skip checking base classes for the @injectable property, which is
+especially useful if any of your @injectable classes extend classes that you don't control
+(third party classes). By default, this value is `false`.
+
+```ts
+let container = new Container({ skipBaseClassChecks: true });
+```
+
 ## Container.merge(a: Container, b: Container)
 
 Merges two containers into one:
@@ -195,14 +205,14 @@ You can use the `isBound` method to check if there are registered bindings for a
 ```ts
 interface Warrior {}
 let warriorId = "Warrior";
-let warriorSymbol = Symbol("Warrior");
+let warriorSymbol = Symbol.for("Warrior");
 
 @injectable()
 class Ninja implements Warrior {}
 
 interface Katana {}
 let katanaId = "Katana";
-let katanaSymbol = Symbol("Katana");
+let katanaSymbol = Symbol.for("Katana");
 
 @injectable()
 class Katana implements Katana {}
@@ -212,12 +222,12 @@ container.bind<Warrior>(Ninja).to(Ninja);
 container.bind<Warrior>(warriorId).to(Ninja);
 container.bind<Warrior>(warriorSymbol).to(Ninja);
 
-container.isBound(Ninja)).eql(true);
-container.isBound(warriorId)).eql(true);
-container.isBound(warriorSymbol)).eql(true);
-container.isBound(Katana)).eql(false);
-container.isBound(katanaId)).eql(false);
-container.isBound(katanaSymbol)).eql(false);
+expect(container.isBound(Ninja)).to.eql(true);
+expect(container.isBound(warriorId)).to.eql(true);
+expect(container.isBound(warriorSymbol)).to.eql(true);
+expect(container.isBound(Katana)).to.eql(false);
+expect(container.isBound(katanaId)).to.eql(false);
+expect(container.isBound(katanaSymbol)).to.eql(false);
 ```
 
 ## container.isBoundNamed(serviceIdentifier: ServiceIdentifier<any>, named: string)
@@ -294,7 +304,7 @@ expect(values2[1]).to.eq(undefined);
 ```
 
 ## container.resolve<T>(constructor: Newable<T>)
-Resolve is like `container.get<T>(serviceIdentifier: ServiceIdentifier<T>)` but it allows users to create an instance when if no bindings have been declared:
+Resolve is like `container.get<T>(serviceIdentifier: ServiceIdentifier<T>)` but it allows users to create an instance even if no bindings have been declared:
 
 ```ts
 @injectable()

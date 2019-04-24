@@ -2,7 +2,7 @@
 InversifyJS is an IoC container, an IoC container is a tool that helps you 
 to write Object-oriented code that is easy to modify and extend over time. 
 However, an IoC container can be wrongly used. To use an IoC in a correct 
-manner you you must follow some basic object-oriented programming principles 
+manner you must follow some basic object-oriented programming principles 
 like the [SOLID principles](https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)).
 
 This page of the wiki will focus on the Dependency Inversion Principle (one of 
@@ -43,7 +43,7 @@ The following example do something similar but it favors 'object composition' ov
 
 ```ts
 @injectable()
-class DerivedModel extends BaseModel {
+class DerivedModel {
     public baseModel: BaseModel;
     public constructor(@inject("BaseModel") baseModel: BaseModel) {
         this.baseModel = baseModel;
@@ -100,7 +100,7 @@ class Ninja {
     private _katana: Katana;
 
     public constructor(
-        inject("Katana") katana: Katana
+        @inject("Katana") katana: Katana
     ) {
         this._katana = katana;
     }
